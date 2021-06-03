@@ -1,0 +1,105 @@
+---
+title: "Linear Regression Simulation"
+output: pdf_document
+---
+Simulate data
+```{r}
+set.seed(1)
+windows(width=10, height=8)
+x = rnorm(100)
+eps = rnorm(100, 0, 0.25)
+y = -1 + 0.5*x + eps
+plot(x,y)
+```
+There is a linear relationship between x and y. They are positively correlated.
+
+
+Predict y using x.
+```{r}
+windows(width=10, height=8)
+x = rnorm(100)
+eps = rnorm(100, 0, 0.25)
+y = -1 + 0.5*x + eps
+plot(x,y)
+fit1= lm(y~x)
+abline(coef(fit1))
+```
+The beta estimates are very close to the actual parameter. However, beta1 is statistically significantly different from 0.5.
+
+
+Scatterplot:
+```{r}
+windows(width=10, height=8)
+x<- rnorm(100)
+eps<- rnorm(100, 0, 0.25)
+y<- -1 + 0.5*x + eps
+plot(x,y)
+fit1<- lm(y~x)
+abline(coef(fit1))
+abline(-1,0.5,col = 'red',lty = 2)
+legend('topleft',
+       legend = c("OLS regression","Population regression"),
+       col = c('black','red'),
+       lty = 1:2, cex = 0.8,
+       )
+```
+
+
+
+Polynomial regression
+```{r}
+fit2= lm(y~x+I(x^2))
+summary(fit2)
+```
+It does not help because the R-sqaured decreases.
+
+
+
+Less noise approach:
+```{r}
+windows(width=10, height=8)
+x3 = rnorm(100)
+eps= rnorm(100, 0, 0.1)
+y3 = -1 + 0.5*x3 + eps
+plot(x3,y3)
+fit3= lm(y3~x3)
+summary(fit3)
+abline(coef(fit3))
+abline(-1,0.5,col = 'red',lty = 2)
+legend('topleft',
+       legend = c("OLS regression","Population regression"),
+       col = c('black','red'),
+       lty = 1:2, cex = 0.8,
+)
+```
+The estimated and actual regression line is almost identical.
+
+
+More noise approach:
+```{r}
+windows(width=10, height=8)
+x4 = rnorm(100)
+eps = rnorm(100, 0, 0.5)
+y4 = -1 + 0.5*x4 + eps
+plot(x4,y4)
+fit4= lm(y4~x4)
+summary(fit4)
+abline(coef(fit4))
+abline(-1,0.5,col = 'red',lty = 2)
+legend('topleft',
+       legend = c("OLS regression","Population regression"),
+       col = c('black','red'),
+       lty = 1:2, cex = 0.8,
+)
+```
+The estimates are less accurate because they have lower t value. The R-squared is lower.
+
+
+
+```{r}
+confint(fit1)
+confint(fit3)
+confint(fit4)
+```
+The width of confidence interval with noisier data is higher. 
+

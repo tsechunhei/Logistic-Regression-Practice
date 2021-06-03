@@ -1,0 +1,38 @@
+---
+title: "Carseats Practice"
+output:
+  pdf_document: default
+  html_document: default
+---
+Predict Sales using Price, Urban, and US.
+```{r}
+library(stargazer)
+load("Carseats.rda")
+
+lm1 = lm(Sales ~ Price + as.factor(Urban) + as.factor(US), Carseats)
+stargazer(lm1, type='text')
+```
+
+
+Interpretation of each coefficient:
+When Price increases by 1 unit, Sales decreases by -0.054. 
+When the observation is in urban area, Sales decreases by -0.022.
+When the observation is in US, Sales increases by 1.201.
+
+
+Equation form:
+Sales = beta0 + beta1 * Price + beta2 * Urban + beta3 * US + error
+
+
+
+Only uses the predictors for which there is evidence of association with
+the outcome:
+```{r}
+lm2 = lm(Sales ~ Price + as.factor(US), Carseats)
+stargazer(lm2, type='text')
+```
+The two models have the same R-squared and fit the data equally well.
+
+```{r}
+confint(lm2)
+```
